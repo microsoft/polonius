@@ -51,6 +51,6 @@
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/azure/azure-dev/azd:latest": {}
     },
-    "postCreateCommand": "playwright install chromium --with-deps && pip install -e src && python3 -m flask --app src/flaskapp seed --filename src/seed_data.json --drop"
+    "postCreateCommand": "playwright install chromium --with-deps && pip install -e src"
 }
 
