@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block title %}
+Polonius - AI Summarization and Classification of critical patient data.
+{% endblock %}
+
+{% block content %}
+<h1 id="page-title">Welcome to Project Polonius</h1>
+<img src="{{ url_for('static', filename='res/img/Polonius.jpg') }}" alt="Polonius" id="polonius-image" height="600px" width="800px">
+<p>
+This sample application will demonstrate how to use the Polonius API to summarize and classify critical patient data.
+</p>
+{% endblock content %}

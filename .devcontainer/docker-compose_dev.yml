@@ -1,0 +1,36 @@
+version: '3'
+services:
+  db:
+    image: mongo:4.2.24
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb
+      MONGO_INITDB_ROOT_PASSWORD: mongodb
+      MONGO_INITDB_DATABASE: relecloud
+
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo db:27017/relecloud --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile_dev
+    depends_on:
+      db:
+        condition: service_healthy
+    network_mode: service:db
+    environment:
+      MONGODB_USERNAME: mongodb
+      MONGODB_PASSWORD: mongodb
+      MONGODB_HOST: db
+      MONGODB_DATABASE: relecloud
+      MONGODB_PORT: 27017
+
+    command: sleep infinity
+
+    volumes:
+      - ..:/workspace:cached
+
