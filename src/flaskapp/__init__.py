@@ -33,13 +33,13 @@ def create_app(test_config=None):
 
     app.register_blueprint(pages.bp)
 
-    @app.cli.command("seed")
-    @click.option("--drop", is_flag=True, default=False)
-    @click.option("--filename", default="seed_data.json")
-    def seed_data(filename, drop):
-        from . import seeder
+    # @app.cli.command("seed")
+    # @click.option("--drop", is_flag=True, default=False)
+    # @click.option("--filename", default="seed_data.json")
+    # def seed_data(filename, drop):
+    #     from . import seeder
 
-        seeder.seed_data(filename, drop=drop)
-        click.echo("Database seeded!")
+    #     seeder.seed_data(filename, drop=drop)
+    #     click.echo("Database seeded!")
 
     return app
