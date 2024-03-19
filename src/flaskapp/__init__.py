@@ -1,6 +1,5 @@
 import os
 
-import click
 import mongoengine as engine
 from azure.monitor.opentelemetry import configure_azure_monitor
 from flask import Flask

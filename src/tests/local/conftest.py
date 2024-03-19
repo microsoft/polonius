@@ -1,6 +1,5 @@
 import multiprocessing
 import os
-import pathlib
 import sys
 
 import ephemeral_port_reserve
@@ -8,7 +7,7 @@ import mongoengine as engine
 import pytest
 from flask import Flask
 
-from flaskapp import create_app, seeder
+from flaskapp import create_app
 
 # Set start method to "fork" to avoid issues with pickling on OSes that default to "spawn"
 if sys.platform == "win32":
