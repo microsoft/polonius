@@ -27,3 +27,10 @@ def hello_there(name):
 
     content = "Hello there, " + clean_name + "! It's " + formatted_now
     return content
+
+@app.route("/json")
+def get_json():
+    return {
+        "key": "value",
+        "key2": [1, 2, 3],
+    }
