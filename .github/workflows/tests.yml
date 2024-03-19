@@ -1,0 +1,57 @@
+name: Run Python E2E tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test_package:
+
+    name: Test ${{ matrix.os }} Python ${{ matrix.python_version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-20.04"]
+        python_version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+    services:
+      db:
+        image: mongo:4.2.24
+        ports:
+          - 27017:27017
+        env:
+            MONGO_INITDB_ROOT_USERNAME: mongodb
+            MONGO_INITDB_ROOT_PASSWORD: mongodb
+            MONGO_INITDB_DATABASE: relecloud
+        options: >-
+          --health-cmd mongo
+          --health-start-period 20s
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+        - uses: actions/checkout@v3
+        - name: Setup python
+          uses: actions/setup-python@v2
+          with:
+
+            python-version: ${{ matrix.python_version }}
+            architecture: x64
+        - name: Install dependencies
+          run: |
+            python3 -m pip install --upgrade pip
+            python3 -m pip install -r requirements-dev.txt
+            playwright install chromium --with-deps
+            python3 -m pip install -e src
+        - name: Seed data and run Pytest tests
+          run: |
+            python3 -m flask --app src.flaskapp seed --filename="src/seed_data.json" --drop
+            python3 -m pytest
+          env:
+            MONGODB_HOST: localhost
+            MONGODB_USERNAME: mongodb
+            MONGODB_PASSWORD: mongodb
+            MONGODB_DATABASE: relecloud
+            MONGODB_PORT: 27017

@@ -1,0 +1,13 @@
+[project]
+name = "flaskapp"
+version = "1.0.0"
+description = "Create a relecloud demo application with flask and cosmos-mongodb"
+dependencies = [
+    "azure-monitor-opentelemetry",
+    "Flask==2.3.2",
+    "mongoengine==0.27.0",
+    ]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
