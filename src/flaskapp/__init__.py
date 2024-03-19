@@ -4,6 +4,7 @@ import click
 import mongoengine as engine
 from azure.monitor.opentelemetry import configure_azure_monitor
 from flask import Flask
+from flask_bootstrap import Bootstrap4
 
 
 def create_app(test_config=None):
@@ -13,6 +14,8 @@ def create_app(test_config=None):
 
     app = Flask(__name__, static_folder="../static", template_folder="../templates")
 
+    bootstrap = Bootstrap4(app) # noqa: F841
+    
     # Load configuration for prod vs. dev
     is_prod_env = "RUNNING_IN_PRODUCTION" in os.environ
     if not is_prod_env:
