@@ -17,6 +17,7 @@ def create_app(test_config=None):
     
     # Load configuration for prod vs. dev
     is_prod_env = "RUNNING_IN_PRODUCTION" in os.environ
+    
     if not is_prod_env:
         app.config.from_object("flaskapp.config.development")
     else:
