@@ -2,38 +2,31 @@
 MongoDB Models for Mongoengine
 """
 
+import json
+
 from mongoengine import (
+    BooleanField,
     Document,
-    EmailField,
-    ListField,
-    ReferenceField,
+    IntField,
     StringField,
 )
 
 
-class Destination(Document):
-    name = StringField(unique=True, required=True)
-    subtitle = StringField(required=False)
-    description = StringField(required=False)
+class TriageNote(Document):
+    mrn = StringField(required=True)
+    stat = BooleanField(required=True)
+    age = IntField(required=False)
+    sex = StringField(required=False)
+    triage = StringField(required=True)
 
     def __str__(self):
-        return self.name
+        return json.dumps(self)
 
 
-class Cruise(Document):
-    name = StringField(unique=True, required=True)
-    subtitle = StringField(required=False)
-    description = StringField(required=False)
-    destinations = ListField(
-        ReferenceField(Destination),
-    )
+class TriagePage(Document):
+    correlation_id = StringField(required=True)
+    page = StringField(required=True)
+    iss_category = StringField(required=False)
 
     def __str__(self):
-        return self.name
-
-
-class InfoRequest(Document):
-    name = StringField(required=True)
-    email = EmailField(required=True)
-    notes = StringField(required=False)
-    cruise = ReferenceField(Cruise)
+        return json.dumps(self)
