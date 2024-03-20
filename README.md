@@ -1,14 +1,14 @@
-# Project
+# Project Polonius
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This is a sample flask app to demonstrate using Azure OpenAI with Semantic Kernel to summarize and classify the severity of incoming Emergency Department patients.
 
-As the maintainer of this project, please make a few updates:
+## Pre-requisites
+- Azure CLI (az)
+- Azure Developer CLI (azd)
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+## Getting Started
+1. Clone this repo
+1. Deploy to Azure with `azd up`
 
 ## Contributing
 
