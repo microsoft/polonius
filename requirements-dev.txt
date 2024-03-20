@@ -14,3 +14,6 @@ axe-playwright-python
 
 # Linters
 ruff
+
+# Settings
+python-dotenv
