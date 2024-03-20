@@ -18,6 +18,7 @@ class TriageNote(Document):
     age = IntField(required=False)
     sex = StringField(required=False)
     triage = StringField(required=True)
+    correlation_id = StringField(required=True)
 
     def __str__(self):
         return json.dumps(self)
