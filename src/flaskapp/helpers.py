@@ -1,5 +1,6 @@
-import os
 import logging
+import os
+
 import semantic_kernel as sk
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 
@@ -16,13 +17,14 @@ class KernelFactory:
         
         service_id=None
         
-        plugin_names = [plugin for plugin in os.listdir(plugins_directory) if os.path.isdir(os.path.join(plugins_directory, plugin))]
+        plugin_names = [plugin for plugin in os.listdir(plugins_directory) if 
+                        os.path.isdir(os.path.join(plugins_directory, plugin))]
         
         # for each plugin, add the plugin to the kernel
         try:
             for plugin_name in plugin_names:
                 kernel.import_plugin_from_prompt_directory(plugins_directory, plugin_name)
-        except ValueError as e:
+        except ValueError:
             logging.exception(f"Plugin {plugin_name} not found")
 
         #add the chat service

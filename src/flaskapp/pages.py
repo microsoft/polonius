@@ -1,7 +1,9 @@
-from semantic_kernel.functions.kernel_arguments import KernelArguments
-from flask import Blueprint, render_template, request
-from . import helpers
 import asyncio
+
+from flask import Blueprint, render_template, request
+from semantic_kernel.functions.kernel_arguments import KernelArguments
+
+from . import helpers
 
 bp = Blueprint("pages", __name__)
 
@@ -14,10 +16,10 @@ def index():
 def notes():
     data = request.get_json()
 
-    MRN = data.get('MRN')
-    STAT = data.get('STAT')
-    Age = data.get('Age')
-    Sex = data.get('Sex')
+    # MRN = data.get('MRN')
+    # STAT = data.get('STAT')
+    # Age = data.get('Age')
+    # Sex = data.get('Sex')
     Triage = data.get('Triage')
 
     kernel = helpers.KernelFactory.create_kernel()
