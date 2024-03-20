@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/notes
+Content-Type: application/json
+{
+    "MRN":"c3f645b3e484211b2b864fb935c54c3d",
+    "STAT": 1,
+    "Age":  24,
+    "Sex":  "M",
+    "Triage": "stab wound x3 to chest gushing and oozing orange blood- stat trauma"
+}
