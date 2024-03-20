@@ -1,5 +1,6 @@
 POST http://localhost:8000/api/notes
 Content-Type: application/json
+
 {
     "MRN":"c3f645b3e484211b2b864fb935c54c3d",
     "STAT": 1,

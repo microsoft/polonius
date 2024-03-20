@@ -1,3 +1,4 @@
 # global requirements
 gunicorn==20.1.0
 bootstrap-flask
+semantic-kernel==0.9.1b1
