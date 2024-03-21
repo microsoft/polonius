@@ -36,19 +36,20 @@ module aoai './core/ai/cognitiveservices.bicep' = {
     name: '${take(prefix, 17)}-ai'
     location: location
     tags: tags
-    deployments: [
-      {
-        name: 'gpt-35-turbo-16k'
-        properties: {
-          model: {
-            format: 'OpenAI'
-            name: 'gpt-35-turbo-16k'
-            version: '0613'
-          }
-          raiPolicyName: 'Microsoft.Default'
-        }
-      }
-    ]
+    keyVaultName: keyVault.outputs.name
+    // deployments: [
+    //   {
+    //     name: 'gpt-35-turbo-16k'
+    //     properties: {
+    //       model: {
+    //         format: 'OpenAI'
+    //         name: 'gpt-35-turbo-16k'
+    //         version: '0613'
+    //       }
+    //       raiPolicyName: 'Microsoft.Default'
+    //     }
+    //   }
+    // ]
   }
 }
 

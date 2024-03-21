@@ -23,8 +23,7 @@
                 "charliermarsh.ruff",
                 "ms-python.python",
                 "ms-azuretools.vscode-docker",
-                "bierner.github-markdown-preview",
-                "ms-azuretools.vscode-bicep"
+                "bierner.github-markdown-preview"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",
@@ -50,7 +49,10 @@
     "features": {
         // Required for azd to package the app to ACA
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-        "ghcr.io/azure/azure-dev/azd:latest": {}
+        "ghcr.io/azure/azure-dev/azd:latest": {},
+        "ghcr.io/devcontainers/features/azure-cli:1": {},
+        "ghcr.io/azure/azure-dev/azd:0": {},
+        "ghcr.io/devcontainers-contrib/features/mongosh-homebrew:1": {}
     },
     "postCreateCommand": "playwright install chromium --with-deps && pip install -e src"
 }
