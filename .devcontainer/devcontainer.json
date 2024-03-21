@@ -23,7 +23,8 @@
                 "charliermarsh.ruff",
                 "ms-python.python",
                 "ms-azuretools.vscode-docker",
-                "bierner.github-markdown-preview"
+                "bierner.github-markdown-preview",
+                "ms-azuretools.vscode-bicep"
             ],
             "settings": {
                 "python.defaultInterpreterPath": "/usr/local/bin/python",

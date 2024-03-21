@@ -28,6 +28,30 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
+// Azure OpenAI
+module aoai './core/ai/cognitiveservices.bicep' = {
+  name: 'aoai'
+  scope: resourceGroup
+  params: {
+    name: '${take(prefix, 17)}-ai'
+    location: location
+    tags: tags
+    deployments: [
+      {
+        name: 'gpt-35-turbo-16k'
+        properties: {
+          model: {
+            format: 'OpenAI'
+            name: 'gpt-35-turbo-16k'
+            version: '0613'
+          }
+          raiPolicyName: 'Microsoft.Default'
+        }
+      }
+    ]
+  }
+}
+
 // Store secrets in a keyvault
 module keyVault './core/security/keyvault.bicep' = {
   name: 'keyvault'
@@ -49,7 +73,7 @@ module db 'db.bicep' = {
     tags: tags
     prefix: prefix
     keyVaultName: keyVault.outputs.name
-    dbserverDatabaseName: 'relecloud'
+    dbserverDatabaseName: 'polonius'
   }
 }
 
@@ -93,6 +117,18 @@ module web 'web.bicep' = {
     containerAppsEnvironmentName: containerApps.outputs.environmentName
     containerRegistryName: containerApps.outputs.registryName
     exists: webAppExists
+  }
+}
+
+// APIM
+module apim './core/gateway/apim.bicep' = {
+  name: 'apim'
+  scope: resourceGroup
+  params: {
+    name: '${prefix}-apim'
+    location: location
+    tags: tags
+    applicationInsightsName: monitoring.outputs.applicationInsightsName
   }
 }
 
