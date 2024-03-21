@@ -6,8 +6,14 @@ If STAT=1 then the injury needs immediate attention
  
 Input:
 struck by SUV, grazed on L hip while crossing in cross walk, knocked down to the ground. bruising to L thigh, no loc, no head strike, no head or back pain, approx. 25mph. no deformity. STAT=0 Age=66 Sex=Male
- 
+
 Output:
 66M struck by SUV in crosswalk, grazed L hip, knocked down. Bruising to L thigh, no LOC, no head strike, no head/back pain, no deformity.  Severity: Mild.
+
+Input:
+fell backwards from standing, striking coffee table. 7-10 left sided rib fx. trauma STAT=0 Age=87 Sex=Male
+Output:
+87M Fall 10+ multiple rib fx
+
 
 {{$input}}
