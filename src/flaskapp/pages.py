@@ -17,16 +17,10 @@ def index():
 @bp.post("/api/notes")
 def notes():
     data = request.get_json()
+
     # create a UUID for the correlation_id
     correlation_id = helpers.generate_uuid()
-
-    # pager_response = models.TriagePage(correlation_id=correlation_id, page="Hello, World!")
-    # pager_response.save()
-
-    # MRN = data.get('MRN')
-    # STAT = data.get('STAT')
-    # Age = data.get('Age')
-    # Sex = data.get('Sex')
+    
     Triage = data.get("Triage")
     max_limit = data.get("max_limit")
 
