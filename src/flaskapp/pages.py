@@ -24,7 +24,7 @@ def notes():
 
     # create a UUID for the correlation_id
     correlation_id = helpers.generate_uuid()
-    
+
     Triage = data.get("Triage")
     max_limit = data.get("max_limit")
 
@@ -38,8 +38,13 @@ def notes():
     asyncio.set_event_loop(loop)
 
     input_data = models.TriageNote(
-        pid=data.get("MRN"), stat=data.get("STAT"), age=data.get("Age"), sex=data.get("Sex"),
-          triage=data.get("Triage"),correlation_id=correlation_id )
+        pid=data.get("MRN"),
+        stat=data.get("STAT"),
+        age=data.get("Age"),
+        sex=data.get("Sex"),
+        triage=data.get("Triage"),
+        correlation_id=correlation_id,
+    )
 
     db_result_input = save_to_db(input_data)
     if db_result_input and "Error" in db_result_input:

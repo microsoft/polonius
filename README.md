@@ -2,6 +2,9 @@
 
 This is a sample flask app to demonstrate using Azure OpenAI with Semantic Kernel to summarize and classify the severity of incoming Emergency Department patients.
 
+## Azure Architecture
+![azure architecture diagram](./docs/azure-architecture.drawio.png)
+
 ## Pre-requisites
 - Azure CLI (az)
 - Azure Developer CLI (azd)
