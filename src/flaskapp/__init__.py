@@ -28,9 +28,10 @@ def create_app(test_config=None):
 
     db = engine.connect(host=app.config.get("DATABASE_URI"))  # noqa: F841
 
-    from . import pages
+    from . import routes
 
-    app.register_blueprint(pages.bp)
+    app.register_blueprint(routes.bp)
+
 
     # @app.cli.command("seed")
     # @click.option("--drop", is_flag=True, default=False)
