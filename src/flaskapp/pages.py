@@ -1,6 +1,6 @@
 import asyncio
-from contextlib import closing
 import csv
+from contextlib import closing
 
 from flask import Blueprint, render_template, request
 from semantic_kernel.functions.kernel_arguments import KernelArguments
@@ -31,18 +31,15 @@ def notes():
     kernel = helpers.KernelFactory.create_kernel()
 
     triage_sk_function = kernel.plugins["TriagePlugin"]["Notes"]
-    triage_sk_args = KernelArguments(input=str(Triage), max_limit=max_limit)
+    triage_sk_args = KernelArguments(input=str(Triage), age=data.get("Age"), sex=data.get("Sex"), max_limit=max_limit)
     
-    #running_text_args = KernelArguments(
-    #    input=f'{data.get("Triage")} STAT={data.get("STAT")} Age={data.get("Age")} Sex={data.get("Sex")}')
-
     # Flask does not natively support async functions, so we need to create a new event loop
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
     input_data = models.TriageNote(
-        mrn=data.get("MRN"), stat=data.get("STAT"), age=data.get("Age"), sex=data.get("Sex"), triage=data.get("Triage")
-    )
+        pid=data.get("MRN"), stat=data.get("STAT"), age=data.get("Age"), sex=data.get("Sex"),
+          triage=data.get("Triage"),correlation_id=correlation_id )
 
     db_result_input = save_to_db(input_data)
     if db_result_input and "Error" in db_result_input:
@@ -67,7 +64,7 @@ def invoke_sk_function(loop, kernel, sk_function, sk_function_args):
     # refactored loop.close() with a context manager
     try:
         with closing(loop):
-            return loop.run_until_complete(kernel.invoke(sk_function, sk_function_args))
+            return loop.run_until_complete(kernel.invoke(sk_function, sk_function_args, temperature=0.5))
     except Exception as e:
         return f"Error invoking semantic function: {str(e)}"
 
@@ -107,20 +104,20 @@ def notes_test():
     running_text_sk_function = kernel.plugins["TriagePlugin"]["Notes"]
     updated_data = {}
 
-    first_amount = {k: data[k] for k in list(data)[:10]}
-  
+    first_amount = {k: data[k] for k in list(data)[20:30]}
+    
     for key, value in first_amount.items():
-        running_text_args = KernelArguments(
-            input=f'{value.get("Triage")} STAT={value.get("STAT")} Age={value.get("Age")} Sex={value.get("Sex")}')
-
+        running_text_args = KernelArguments(input=value.get("Triage"), age=value.get("Age"), sex=value.get("Sex"),
+                                             max_limit=200)
+        
         # Flask does not natively support async functions, so we need to create a new event loop
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
-            result = loop.run_until_complete(kernel.invoke(running_text_sk_function, running_text_args))
-            
+            result = invoke_sk_function(loop, kernel, running_text_sk_function, running_text_args)
+    
             updated_data[key] = {
-                "MRN": value.get("MRN"),
+                "PID": value.get("MRN"),
                 "STAT": value.get("STAT"),
                 "Age": value.get("Age"),
                 "Sex": value.get("Sex"),
@@ -138,9 +135,9 @@ def notes_test():
     with open('flaskapp/data/results.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         # Write the header
-        writer.writerow(["MRN", "STAT", "Age", "Sex", "Triage", "ISS", "Page", "AIPage"])
+        writer.writerow(["PID", "STAT", "Age", "Sex", "Triage", "ISS", "Page", "AIPage"])
         for key, value in updated_data.items():
-            writer.writerow([value.get("MRN"), value.get("STAT"), value.get("Age"), value.get("Sex"), 
+            writer.writerow([value.get("PID"), value.get("STAT"), value.get("Age"), value.get("Sex"), 
                              value.get("Triage"), value.get("ISS"), value.get("Page"), value.get("AIPage")])
        
 
