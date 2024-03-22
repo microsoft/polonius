@@ -13,7 +13,7 @@ from mongoengine import (
 
 
 class TriageNote(Document):
-    mrn = StringField(required=True)
+    pid = StringField(required=True)
     stat = BooleanField(required=True)
     age = IntField(required=False)
     sex = StringField(required=False)
