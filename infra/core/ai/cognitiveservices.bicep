@@ -12,7 +12,7 @@ param sku object = {
 
 param keyVaultName string
 
-resource account 'Microsoft.CognitiveServices/accounts@2022-10-01' = {
+resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
   name: name
   location: location
   tags: tags
@@ -25,50 +25,44 @@ resource account 'Microsoft.CognitiveServices/accounts@2022-10-01' = {
 }
 
 @batchSize(1)
-resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2022-10-01' = [for deployment in deployments: {
+resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = [for deployment in deployments: {
   parent: account
   name: deployment.name
+  sku: deployment.sku
   properties: {
     model: deployment.model
     raiPolicyName: contains(deployment, 'raiPolicyName') ? deployment.raiPolicyName : null
-    scaleSettings: deployment.scaleSettings
   }
 }]
 
-var settings = [
-  {
-    name: 'AZURE_OPENAI_DEPLOYMENT_NAME'
-    value: 'gpt-35-turbo-16k'
-  }
-]
-
-@batchSize(1)
-resource keyVaultSecrets 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = [for setting in settings: {
-  parent: keyVault
-  name: setting.name
-  properties: {
-    value: setting.value
-  }
-}]
-
-resource keyVaultEndpoint 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-  parent: keyVault
-  name: 'AZURE_OPENAI_ENDPOINT'
-  properties: {
-    value: account.properties.endpoint
+module keyVaultSecrets '../security/keyvault-secret.bicep' = {
+  name: 'keyvault-secret-deployment-name'
+  scope: resourceGroup()
+  params: {
+    keyVaultName: keyVaultName
+    name: 'AZURE-OPENAI-DEPLOYMENT-NAME'
+    secretValue: deployments[0].name
   }
 }
 
-resource keyVaultApiKey 'Microsoft.KeyVault/vaults/secrets@2022-07-01' = {
-  parent: keyVault
-  name: 'AZURE_OPENAI_API_KEY'
-  properties: {
-    value: account.listKeys().key1
+module keyVaultSecretEndpoint '../security/keyvault-secret.bicep' = {
+  name: 'keyvault-secret-endpoint'
+  scope: resourceGroup()
+  params: {
+    keyVaultName: keyVaultName
+    name: 'AZURE-OPENAI-ENDPOINT'
+    secretValue: account.properties.endpoint
   }
 }
 
-resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
-  name: keyVaultName
+module keyVaultSecretApiSecret '../security/keyvault-secret.bicep' = {
+  name: 'keyvault-secret-api-key'
+  scope: resourceGroup()
+  params: {
+    keyVaultName: keyVaultName
+    name: 'AZURE-OPENAI-API-KEY'
+    secretValue: account.listKeys().key1
+  }
 }
 
 output endpoint string = account.properties.endpoint

@@ -28,6 +28,21 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   tags: tags
 }
 
+var deployments = [
+  {
+    name: 'gpt-35-turbo-16k'
+    model: {
+      format: 'OpenAI'
+      name: 'gpt-35-turbo-16k'
+      version: '0613'
+    }
+    sku: {
+      name: 'Standard'
+      capacity: 120
+    }       
+  }
+]
+
 // Azure OpenAI
 module aoai './core/ai/cognitiveservices.bicep' = {
   name: 'aoai'
@@ -37,19 +52,7 @@ module aoai './core/ai/cognitiveservices.bicep' = {
     location: location
     tags: tags
     keyVaultName: keyVault.outputs.name
-    // deployments: [
-    //   {
-    //     name: 'gpt-35-turbo-16k'
-    //     properties: {
-    //       model: {
-    //         format: 'OpenAI'
-    //         name: 'gpt-35-turbo-16k'
-    //         version: '0613'
-    //       }
-    //       raiPolicyName: 'Microsoft.Default'
-    //     }
-    //   }
-    // ]
+    deployments: deployments
   }
 }
 
@@ -108,6 +111,7 @@ module containerApps 'core/host/container-apps.bicep' = {
 module web 'web.bicep' = {
   name: 'web'
   scope: resourceGroup
+  dependsOn: [aoai, db]
   params: {
     name: replace('${take(prefix, 19)}-ca', '--', '-')
     location: location
