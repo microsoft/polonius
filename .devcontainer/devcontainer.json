@@ -35,15 +35,7 @@
                     ".pytest_cache": true,
                     "__pycache__": true,
                     ".ruff_cache": true
-                },
-                "[python]": {
-                    "editor.formatOnSave": true,
-                    "editor.defaultFormatter": "charliermarsh.ruff",
-                    "editor.codeActionsOnSave": {
-                        "source.organizeImports": true,
-                        "source.fixAll": true
-                    }
-                }
+                }                
             }
         }
     },
@@ -51,8 +43,7 @@
         // Required for azd to package the app to ACA
         "ghcr.io/devcontainers/features/docker-in-docker:2": {},
         "ghcr.io/azure/azure-dev/azd:latest": {},
-        "ghcr.io/devcontainers/features/azure-cli:1": {},
-        "ghcr.io/azure/azure-dev/azd:0": {}
+        "ghcr.io/devcontainers/features/azure-cli:1": {}
     },
     "postCreateCommand": "playwright install chromium --with-deps && pip install -e src"
 }
