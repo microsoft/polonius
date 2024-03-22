@@ -55,7 +55,19 @@ module app 'core/host/container-app-upsert.bicep' = {
         name: 'SECRET_KEY'
         secretRef: 'secret-key'
       }
-      ]
+      {
+        name: 'AZURE_OPENAI_DEPLOYMENT_NAME'
+        secretRef: 'azure-openai-deployment-name'
+      }
+      {
+        name: 'AZURE_OPENAI_API_KEY'
+        secretRef: 'azure-openai-api-key'
+      }
+      {
+        name: 'AZURE_OPENAI_ENDPOINT'
+        secretRef: 'azure-openai-endpoint'
+      }
+    ]
     secrets: [
         {
           name: 'secret-key'
@@ -65,6 +77,21 @@ module app 'core/host/container-app-upsert.bicep' = {
         {
           name: 'azure-cosmos-connection-string'
           keyVaultUrl: '${keyVault.properties.vaultUri}secrets/AZURE-COSMOS-CONNECTION-STRING'
+          identity: webIdentity.id
+        }
+        {
+          name: 'azure-openai-deployment-name'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/AZURE-OPENAI-DEPLOYMENT-NAME'
+          identity: webIdentity.id
+        }
+        {
+          name: 'azure-openai-api-key'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/AZURE-OPENAI-API-KEY'
+          identity: webIdentity.id
+        }
+        {
+          name: 'azure-openai-endpoint'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/AZURE-OPENAI-ENDPOINT'
           identity: webIdentity.id
         }
       ]
