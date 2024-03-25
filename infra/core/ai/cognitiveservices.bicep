@@ -4,6 +4,7 @@ param tags object = {}
 @description('The custom subdomain name used to access the API. Defaults to the value of the name parameter.')
 param customSubDomainName string = name
 param deployments array = []
+param policies array = []
 param kind string = 'OpenAI'
 param publicNetworkAccess string = 'Enabled'
 param sku object = {
@@ -25,7 +26,19 @@ resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
 }
 
 @batchSize(1)
+resource raiPolicy 'Microsoft.CognitiveServices/accounts/raiPolicies@2023-10-01-preview' = [for policy in policies: {
+  parent: account
+  name: policy.name
+  properties: {
+    mode: policy.mode
+    basePolicyName: policy.basePolicyName
+    contentFilters: policy.contentFilters
+  }
+}]
+
+@batchSize(1)
 resource deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = [for deployment in deployments: {
+  dependsOn: [raiPolicy]
   parent: account
   name: deployment.name
   sku: deployment.sku
