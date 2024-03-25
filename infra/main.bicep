@@ -39,7 +39,80 @@ var deployments = [
     sku: {
       name: 'Standard'
       capacity: 120
-    }       
+    }
+    raiPolicyName: 'CustomContentFilter643'
+  }
+]
+
+var raiPolicies = [
+  {
+    name: 'CustomContentFilter643'
+    mode: 'Default'
+    basePolicyName: 'Microsoft.Default'
+    contentFilters: [
+      {
+          name: 'hate'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Prompt'
+      }
+      {
+          name: 'sexual'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Prompt'
+      }
+      {
+          name: 'selfharm'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Prompt'
+      }
+      {
+          name: 'violence'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Prompt'
+      }
+      {
+          name: 'hate'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Completion'
+      }
+      {
+          name: 'sexual'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Completion'
+      }
+      {
+          name: 'selfharm'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Completion'
+      }
+      {
+          name: 'violence'
+          allowedContentLevel: 'High'
+          blocking: true
+          enabled: true
+          source: 'Completion'
+      }
+      {
+          name: 'jailbreak'
+          blocking: true
+          enabled: true
+          source: 'Prompt'
+      }
+    ]
   }
 ]
 
@@ -53,6 +126,7 @@ module aoai './core/ai/cognitiveservices.bicep' = {
     tags: tags
     keyVaultName: keyVault.outputs.name
     deployments: deployments
+    policies: raiPolicies
   }
 }
 
