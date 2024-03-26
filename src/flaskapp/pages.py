@@ -90,7 +90,7 @@ def notes_test():
     max_limit = request.args.get('max_limit', default=200, type=int)
 
     data = {}
-    with open('flaskapp/data/testpages.csv') as file:
+    with open('src/flaskapp/data/testpages.csv') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
             data[row[0]] ={
@@ -141,7 +141,7 @@ def notes_test():
             loop.close()
         
 
-    with open('flaskapp/data/results.csv', 'w', newline='') as file:
+    with open('src/flaskapp/data/results.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         # Write the header
         writer.writerow(["PID", "STAT", "Age", "Sex", "Triage", "ISS", "Page", "AIPage"])
