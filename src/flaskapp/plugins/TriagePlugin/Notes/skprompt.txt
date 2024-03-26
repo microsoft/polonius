@@ -10,15 +10,16 @@ Severe = ISS >20
 Always begin with age and sex
 Always return the message in {{$max_limit}} characters or less
 Always use BIDMC approved abbreviations
+Always provide the reasoning how and why the ISS is determined.
 
 Never add any additional information not included in the input
 
 ***EXAMPLE***
 Input: 23 M stab wound x3 to chest- stat trauma
-Output: {"Message": "23M stab wound x3 to chest- stat trauma", "ISS": 8, "Severity": "Mild"}
+Output: {"Message": "23M stab wound x3 to chest- stat trauma", "ISS": 8, "Severity": "Mild", "Reasoning": "The patient has a stab wound x3 to the chest, which is a penetrating injury."}
 
 Input: 65 F Female s/p fall from toilet 12 hrs ago landing on face. Ct head neg acute fx of right c1 lateral mass and a minimally displaced fx of the right c7 lamina. Face swollen, ct face pending, left nares packed. On Coumadin. On hd mon wed Friday last dialysis yesterday
-Output: {"Message":"65F Fall 4 ft continued hypotension on coumadin", "ISS": 5, "Severity": "Mild"}
+Output: {"Message":"65F Fall 4 ft continued hypotension on coumadin", "ISS": 5, "Severity": "Mild", "Reasoning": "The patient has a fall from the toilet 12 hours ago, which is a blunt injury."}
 
 Input:{{$age}} {{$sex}} {{$input}}
 Output:
