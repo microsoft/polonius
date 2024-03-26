@@ -37,8 +37,8 @@ def notes():
 
 @bp.get("/api/test/notes")
 def notes_test():
-    skip = request.args.get('skip', default=0, type=int)
-    take = request.args.get('take', default=10, type=int)
-    max_value = request.args.get('max_value', default=200, type=int)
+    start = request.args.get('start', default=0, type=int)
+    end = request.args.get('end', default=10, type=int)
+    max_limit = request.args.get('max_limit', default=200, type=int)
 
-    return process_test_notes(max_value, skip, take)
+    return process_test_notes(max_limit, start, end)
