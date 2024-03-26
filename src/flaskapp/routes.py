@@ -3,6 +3,7 @@
 from flask import Blueprint, render_template, request
 
 from src.flaskapp.db_operations import generate_uuid, saveTriageNote, saveTriagePage
+from src.flaskapp.test_notes import process_test_notes
 
 from . import sk_helper
 
@@ -33,6 +34,11 @@ def notes():
 
     return str(result)
 
-# @bp.get("/api/test/notes")
-# def notes_test():
-#     return process_test_notes()
+
+@bp.get("/api/test/notes")
+def notes_test():
+    skip = request.args.get('skip', default=0, type=int)
+    take = request.args.get('take', default=10, type=int)
+    max_value = request.args.get('max_value', default=200, type=int)
+
+    return process_test_notes(max_value, skip, take)

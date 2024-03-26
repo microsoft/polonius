@@ -25,4 +25,7 @@ content-type: application/json
 GET http://127.0.0.1:5000/api/test/notes
 
 ###
+GET http://127.0.0.1:5000/api/test/notes?skip=20&take=30&max_limit=200
+
+###
 GET http://127.0.0.1:5000/api/demo
