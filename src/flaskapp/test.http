@@ -5,9 +5,9 @@ content-type: application/json
 {
     "MRN":"c3f645b3e484211b2b864fb935c54c3d",
     "STAT":	1,
-    "Age":	24,
+    "Age":	64,
     "Sex":	"M",
-    "Triage": "stab wound x3 to chest- stat trauma",
+    "Triage": "64 M. Fall full flight of stairs. Maintaining airway, BP high, closed head injury s/p fall +ETOH",
     "max_limit":200
 }
    
@@ -25,7 +25,7 @@ content-type: application/json
 GET http://127.0.0.1:5000/api/test/notes
 
 ###
-GET http://127.0.0.1:5000/api/test/notes?skip=20&take=30&max_limit=200
+GET http://127.0.0.1:5000/api/test/notes?start=0&end=10&max_limit=200
 
 ###
 GET http://127.0.0.1:5000/api/demo
