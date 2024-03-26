@@ -1,0 +1,28 @@
+
+POST http://127.0.0.1:5000/api/notes
+content-type: application/json
+
+{
+    "MRN":"c3f645b3e484211b2b864fb935c54c3d",
+    "STAT":	1,
+    "Age":	24,
+    "Sex":	"M",
+    "Triage": "stab wound x3 to chest- stat trauma",
+    "max_limit":200
+}
+   
+# {
+#     "MRN":"c3f645b3e484211b2b864fb935c54c3d",
+#     "STAT":	0,
+#     "Age":	24,
+#     "Sex":	"M",
+#     "Triage": "Pt presents to the ED s/p fall from bike with headstrike, found to have SAH. Awake and alert.",
+#     "max_limit":200
+# }
+
+
+###
+GET http://127.0.0.1:5000/api/test/notes
+
+###
+GET http://127.0.0.1:5000/api/demo
