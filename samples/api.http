@@ -9,3 +9,6 @@ Content-Type: application/json
     "Triage": "stab wound x3 to chest gushing and oozing orange blood- stat trauma",
     "max_limit": 200
 }
+
+###
+GET http://127.0.0.1:5000/api/test/notes?start=4&end=15&max_limit=200

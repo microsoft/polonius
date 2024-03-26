@@ -4,6 +4,7 @@ from contextlib import closing
 
 from flask import Blueprint, render_template, request
 from semantic_kernel.functions.kernel_arguments import KernelArguments
+from tqdm import tqdm
 
 from . import helpers, models
 
@@ -84,9 +85,12 @@ def save_to_db(collection: models):
 
 @bp.get("/api/test/notes")
 def notes_test():
+    start = request.args.get('start', default=0, type=int)
+    end = request.args.get('end', default=10, type=int)
+    max_limit = request.args.get('max_limit', default=200, type=int)
 
     data = {}
-    with open('flaskapp/data/testpages.csv') as file:
+    with open('src/flaskapp/data/testpages.csv') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
             data[row[0]] ={
@@ -109,11 +113,11 @@ def notes_test():
     running_text_sk_function = kernel.plugins["TriagePlugin"]["Notes"]
     updated_data = {}
 
-    first_amount = {k: data[k] for k in list(data)[20:30]}
+    first_amount = {k: data[k] for k in list(data)[start:end]}
     
-    for key, value in first_amount.items():
+    for key, value in tqdm(first_amount.items(), total=len(first_amount), desc="Processing"):
         running_text_args = KernelArguments(input=value.get("Triage"), age=value.get("Age"), sex=value.get("Sex"),
-                                             max_limit=200)
+                                             max_limit=max_limit)
         
         # Flask does not natively support async functions, so we need to create a new event loop
         loop = asyncio.new_event_loop()
@@ -137,7 +141,7 @@ def notes_test():
             loop.close()
         
 
-    with open('flaskapp/data/results.csv', 'w', newline='') as file:
+    with open('src/flaskapp/data/results.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         # Write the header
         writer.writerow(["PID", "STAT", "Age", "Sex", "Triage", "ISS", "Page", "AIPage"])
