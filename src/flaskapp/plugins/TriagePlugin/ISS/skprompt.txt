@@ -1,0 +1,19 @@
+
+You are to provide an ISS score and a range based on the ambulatory notes.
+
+Always use https://www.mdcalc.com/calc/1239/injury-severity-score-iss to calculate the ISS
+Always provide the reasoning why the score is what it is.
+Always split ISS into three levels of severity as follows:
+Mild = ISS 0-10
+Moderate = ISS 11-20
+Severe = ISS >20
+
+***EXAMPLE***
+Input: stab wound x3 to chest- stat trauma
+Output: {"ISS": 8, "Severity": "Mild", "Reasoning": "The patient has a stab wound x3 to the chest, which is a penetrating injury."}
+
+Input: Female s/p fall from toilet 12 hrs ago landing on face. Ct head neg acute fx of right c1 lateral mass and a minimally displaced fx of the right c7 lamina. Face swollen, ct face pending, left nares packed. On Coumadin. On hd mon wed Friday last dialysis yesterday
+Output: {"ISS": 5, "Severity": "Mild", "Reasoning": "The patient has a fall from the toilet 12 hours ago, which is a blunt injury."}
+
+Input:{{$input}}
+Output:

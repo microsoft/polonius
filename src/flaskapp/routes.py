@@ -42,3 +42,12 @@ def notes_test():
     max_value = request.args.get('max_value', default=200, type=int)
 
     return process_test_notes(max_value, skip, take)
+
+@bp.post("/api/iss")
+def iss():
+    data = request.get_json()
+
+    kernel = sk_helper.KernelFactory.create_kernel()
+    result = sk_helper.execute_kernel_function(kernel, data, "TriagePlugin", "ISS")
+
+    return str(result)

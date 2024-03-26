@@ -1,0 +1,35 @@
+{
+    "schema": 1,
+    "description": "Returns the summary of the triage message in under a specific number of characters.",
+    "execution_settings": {
+        "default": {
+            "max_tokens": 500,
+            "temperature": 0.5,
+            "top_p": 0.0,
+            "presence_penalty": 0.0,
+            "frequency_penalty": 0.0
+        }      
+    },
+    "input_variables":  [
+            {
+                "name": "input",
+                "description": "Text to be processed.",
+                "default": ""
+            },
+            {
+                "name": "age",
+                "description": "Age of patient.",
+                "default": ""
+            },
+            {
+                "name": "sex",
+                "description": "Sex of patient.",
+                "default": ""
+            },
+            {
+                "name": "max_limit",
+                "description": "Maximum summary length.",
+                "default": "200"
+            }
+   ]    
+}

@@ -29,3 +29,11 @@ GET http://127.0.0.1:5000/api/test/notes?skip=20&take=30&max_limit=200
 
 ###
 GET http://127.0.0.1:5000/api/demo
+
+###
+POST http://127.0.0.1:5000/api/iss
+content-type: application/json
+
+{
+    "Triage": "BIBA tx from BI Plymouth for further evaluation of multiple right rib fx's and right clavicle fx. Pt with right chest tube placed for pneumothorax and pulmonary contusion."
+}
