@@ -39,6 +39,6 @@ def notes():
 def notes_test():
     start = request.args.get('start', default=0, type=int)
     end = request.args.get('end', default=10, type=int)
-    max_value = request.args.get('max_value', default=200, type=int)
+    max_limit = request.args.get('max_limit', default=200, type=int)
 
-    return process_test_notes(max_value, start, end)
+    return process_test_notes(max_limit, start, end)

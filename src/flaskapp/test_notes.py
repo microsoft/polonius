@@ -9,34 +9,27 @@ from . import sk_helper
 
 def process_test_notes(max_limit: int = 200, start: int = 0, end: int = 10):
     data = {}
-    with open('flaskapp/data/testpages.csv') as file:
-        csv_reader = csv.reader(file)
-        for row in csv_reader:
-            data[row[0]] ={
-                "MRN": row[1],
-                "STAT": row[2],
-                "Age": row[3],
-                "Sex": row[4],
-                "Triage": row[5],
-                "Page" : row[6],
-                "ISS": row[7]
+    with open('src/flaskapp/data/testpages.csv') as file:
+        csv_reader = csv.DictReader(file)
+        for i, row in enumerate(csv_reader):
+            data[i] ={
+                "MRN": row["MRN_hashed"],
+                "STAT": row["STAT"],
+                "Age": row["Age"],
+                "Sex": row["Sex"],
+                "Triage": row["triageText"],
+                "Page" : row["Page"],
+                "ISS": row["ISS"]
             }
         
-    #remove the header
-    items = list(data.items())
-    del items[0]
-    data = dict(items)
     
     kernel = sk_helper.KernelFactory.create_kernel()
 
     running_text_sk_function = kernel.plugins["TriagePlugin"]["Notes"]
     updated_data = {}
     first_amount = {k: data[k] for k in list(data)[start:end]}
-    #count_down = end - start
-    for key, value in tqdm(first_amount.items(), total=len(first_amount), desc="Processing"):
-        # print('Remaining:', count_down)
-        # count_down -= 1
 
+    for key, value in tqdm(first_amount.items(), total=len(first_amount), desc="Processing"):
         running_text_args = KernelArguments(input=value.get("Triage"), age=value.get("Age"), sex=value.get("Sex"),
                                              max_limit=max_limit)
         
@@ -63,7 +56,7 @@ def process_test_notes(max_limit: int = 200, start: int = 0, end: int = 10):
             loop.close()
         
 
-    with open('flaskapp/data/results.csv', 'w', newline='') as file:
+    with open('src/flaskapp/data/results.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         # Write the header
         writer.writerow(["PID", "STAT", "Age", "Sex", "Triage", "ISS", "Page", "AIPage"])
