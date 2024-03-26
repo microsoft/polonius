@@ -90,19 +90,20 @@ def notes_test():
     max_limit = request.args.get('max_limit', default=200, type=int)
 
     data = {}
+    
     with open('src/flaskapp/data/testpages.csv') as file:
-        csv_reader = csv.reader(file)
-        for row in csv_reader:
-            data[row[0]] ={
-                "MRN": row[1],
-                "STAT": row[2],
-                "Age": row[3],
-                "Sex": row[4],
-                "Triage": row[5],
-                "Page" : row[6],
-                "ISS": row[7]
+        csv_reader = csv.DictReader(file)
+        for i, row in enumerate(csv_reader):
+            data[i] ={
+                "MRN": row["MRN_hashed"],
+                "STAT": row["STAT"],
+                "Age": row["Age"],
+                "Sex": row["Sex"],
+                "Triage": row["triageText"],
+                "Page" : row["Page"],
+                "ISS": row["ISS"]
             }
-        
+            
     #remove the header
     items = list(data.items())
     del items[0]
