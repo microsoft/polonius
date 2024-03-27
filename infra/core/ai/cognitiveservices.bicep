@@ -58,16 +58,6 @@ module keyVaultSecrets '../security/keyvault-secret.bicep' = {
   }
 }
 
-module keyVaultSecretEndpoint '../security/keyvault-secret.bicep' = {
-  name: 'keyvault-secret-endpoint'
-  scope: resourceGroup()
-  params: {
-    keyVaultName: keyVaultName
-    name: 'AZURE-OPENAI-ENDPOINT'
-    secretValue: account.properties.endpoint
-  }
-}
-
 module keyVaultSecretApiSecret '../security/keyvault-secret.bicep' = {
   name: 'keyvault-secret-api-key'
   scope: resourceGroup()

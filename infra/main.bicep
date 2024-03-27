@@ -185,7 +185,7 @@ module containerApps 'core/host/container-apps.bicep' = {
 module web 'web.bicep' = {
   name: 'web'
   scope: resourceGroup
-  dependsOn: [aoai, db]
+  dependsOn: [aoai, db, apimapi]
   params: {
     name: replace('${take(prefix, 19)}-ca', '--', '-')
     location: location
@@ -199,15 +199,28 @@ module web 'web.bicep' = {
   }
 }
 
+
+
 // APIM
 module apim './core/gateway/apim.bicep' = {
   name: 'apim'
+  dependsOn: [aoai]
   scope: resourceGroup
   params: {
     name: '${prefix}-apim'
     location: location
     tags: tags
     applicationInsightsName: monitoring.outputs.applicationInsightsName
+    keyVaultName: keyVault.outputs.name
+  }
+}
+
+module apimapi './core/gateway/openai-apim-api.bicep' = {
+  name: 'apim-api'
+  scope: resourceGroup
+  params: {
+    apiManagementServiceName: apim.outputs.apimServiceName
+    openAIEndpoint: aoai.outputs.endpoint
   }
 }
 
@@ -215,7 +228,7 @@ var secrets = [
   {
     name: 'SECRETKEY'
     value: secretKey
-  }
+  }  
 ]
 
 @batchSize(1)

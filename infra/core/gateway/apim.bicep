@@ -1,6 +1,7 @@
 param name string
 param location string = resourceGroup().location
 param tags object = {}
+param keyVaultName string
 
 @description('The email address of the owner of the service')
 @minLength(1)
@@ -34,6 +35,9 @@ resource apimService 'Microsoft.ApiManagement/service@2021-08-01' = {
     name: sku
     capacity: (sku == 'Consumption') ? 0 : ((sku == 'Developer') ? 1 : skuCount)
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
     publisherEmail: publisherEmail
     publisherName: publisherName
@@ -57,6 +61,15 @@ resource apimService 'Microsoft.ApiManagement/service@2021-08-01' = {
   }
 }
 
+// Give APIM identity permissions to keyvault
+module keyVaultAccess '../security/keyvault-access.bicep' = {
+  name: 'keyVaultApimAccess'
+  params: {
+    keyVaultName: keyVaultName
+    principalId: apimService.identity.principalId
+  }
+}
+
 resource apimLogger 'Microsoft.ApiManagement/service/loggers@2021-12-01-preview' = if (!empty(applicationInsightsName)) {
   name: 'app-insights-logger'
   parent: apimService
@@ -75,4 +88,31 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
   name: applicationInsightsName
 }
 
+module keyVaultSecret '../security/keyvault-secret.bicep' = {
+  name: 'keyVaultSecret-apim-endpoint'
+  params: {
+    keyVaultName: keyVaultName
+    name: 'AZURE-OPENAI-ENDPOINT'
+    secretValue: apimService.properties.gatewayUrl
+  }
+}
+
+resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
+  name: keyVaultName
+}
+
+resource apim_openai_api_key 'Microsoft.ApiManagement/service/namedValues@2023-05-01-preview' = {
+  parent: apimService
+  dependsOn: [keyVaultAccess]
+  name: 'openai-api-key'
+  properties: {
+    displayName: 'openai-api-key'
+    keyVault: {
+      secretIdentifier: '${keyVault.properties.vaultUri}secrets/AZURE-OPENAI-API-KEY'
+    }
+    secret: true
+  }
+}
+
 output apimServiceName string = apimService.name
+output apimServiceUrl string = apimService.properties.gatewayUrl
