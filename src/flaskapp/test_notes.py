@@ -37,6 +37,7 @@ def process_test_notes(max_limit: int = 200, start: int = 0, end: int = 10):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         try:
+            loop.run_until_complete(asyncio.sleep(1))  # wait for 1 second
             result = sk_helper.invoke_sk_function(loop, kernel, running_text_sk_function, running_text_args)
     
             updated_data[key] = {
