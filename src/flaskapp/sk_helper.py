@@ -1,14 +1,37 @@
+import asyncio
 import logging
 import os
-import uuid
+from contextlib import closing
 
 import semantic_kernel as sk
 from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
 
 
-def generate_uuid() -> str:
-    return str(uuid.uuid4())
+def invoke_sk_function(loop, kernel, sk_function, sk_function_args):
+    # refactored loop.close() with a context manager
+    try:
+        with closing(loop):
+            return loop.run_until_complete(kernel.invoke(sk_function, sk_function_args, temperature=0.5))
+    except Exception as e:
+        return f"Error invoking semantic function: {str(e)}"
 
+def execute_kernel_function(kernel, data, plugin_folder, plugin):
+    try:
+        triage_sk_function = kernel.plugins[plugin_folder][plugin]
+        triage_sk_args = sk.KernelArguments(
+                            input=data.get("Triage"), 
+                            age=data.get("Age"), 
+                            sex=data.get("Sex"), 
+                            max_limit=data.get("max_limit"))
+
+        # Flask does not natively support async functions, so we need to create a new event loop
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+        result = invoke_sk_function(loop, kernel, triage_sk_function, triage_sk_args)
+        return result
+    except Exception as e:
+        raise e
 
 class KernelFactory:
     @staticmethod
