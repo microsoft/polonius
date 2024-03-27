@@ -31,12 +31,14 @@ Polonius - AI Summarization and Classification of critical patient data.
             </tr>          
         </table>
         <div id="api-response" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 700px;">
-            <h5>Response:</h5>
-            <p id="message"></p>
-            <p id="iss"></p>
+            Response:
             <p id="severity"></p>
+            <p id="iss"></p>
             <p id="reasoning"></p>
-        </div>        
+         
+        <div id="page" style="margin-top: 20px; padding: 10px; border: 1px solid #ddd; border-radius: 5px; width: 700px;">
+            <p id="message" style="font-weight: bold;"></p>
+        </div>         
     </div>
 
 <script>
@@ -58,7 +60,7 @@ document.getElementById('api-button').addEventListener('click', function() {
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById('message').innerText = 'Message: ' + data.Message;
+        document.getElementById('message').innerText = 'Page: ' + data.Message;
         document.getElementById('iss').innerText = 'ISS: ' + data.ISS;
         document.getElementById('severity').innerText = 'Severity: ' + data.Severity;
         document.getElementById('reasoning').innerText = 'Reasoning: ' + data.Reasoning;
