@@ -5,7 +5,7 @@ Summarize the injury, status, provide ISS score, severity category based on the 
 ISS into three levels of severity as follows:
 Mild = ISS 0-10
 Moderate = ISS 11-20
-Severe = ISS >20
+Severe = ISS 21-75
 
 Always begin with age and sex
 Always return the message in {{$max_limit}} characters or less
