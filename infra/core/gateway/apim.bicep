@@ -70,6 +70,19 @@ module keyVaultAccess '../security/keyvault-access.bicep' = {
   }
 }
 
+// Create default subscription
+resource apimDefaultDeveloperSubscription 'Microsoft.ApiManagement/service/subscriptions@2023-05-01-preview' = {
+  parent: apimService
+  name: 'default-developer'
+  properties: {
+    scope: '/apis'
+    displayName: 'default-developer'
+    state: 'active'
+    allowTracing: false
+  }
+}
+
+
 resource apimLogger 'Microsoft.ApiManagement/service/loggers@2021-12-01-preview' = if (!empty(applicationInsightsName)) {
   name: 'app-insights-logger'
   parent: apimService
@@ -88,12 +101,21 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
   name: applicationInsightsName
 }
 
-module keyVaultSecret '../security/keyvault-secret.bicep' = {
+module keyVaultSecretEndpoint '../security/keyvault-secret.bicep' = {
   name: 'keyVaultSecret-apim-endpoint'
   params: {
     keyVaultName: keyVaultName
     name: 'AZURE-OPENAI-ENDPOINT'
     secretValue: apimService.properties.gatewayUrl
+  }
+}
+
+module keyVaultSecretSubscriptionKey '../security/keyvault-secret.bicep' = {
+  name: 'keyVaultSecret-apim-subscription-key'
+  params: {
+    keyVaultName: keyVaultName
+    name: 'APIM-SUBSCRIPTION-KEY'
+    secretValue: apimDefaultDeveloperSubscription.listSecrets(apimDefaultDeveloperSubscription.apiVersion).primaryKey
   }
 }
 

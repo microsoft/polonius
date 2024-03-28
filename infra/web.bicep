@@ -86,7 +86,7 @@ module app 'core/host/container-app-upsert.bicep' = {
         }
         {
           name: 'azure-openai-api-key'
-          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/AZURE-OPENAI-API-KEY'
+          keyVaultUrl: '${keyVault.properties.vaultUri}secrets/APIM-SUBSCRIPTION-KEY'
           identity: webIdentity.id
         }
         {
