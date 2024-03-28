@@ -1,3 +1,4 @@
 .git*
 .venv/
 **/*.pyc
+.env

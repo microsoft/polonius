@@ -7,9 +7,9 @@ from tqdm import tqdm
 from . import sk_helper
 
 
-def process_test_notes(max_limit: int = 200, start: int = 0, end: int = 10):
+def process_test_notes(src_file: str, dest_file: str, max_limit: int = 200, start: int = 0, end: int = 10):
     data = {}
-    with open('src/flaskapp/data/testpages.csv') as file:
+    with open(src_file) as file:
         csv_reader = csv.DictReader(file)
         for i, row in enumerate(csv_reader):
             data[i] ={
@@ -56,7 +56,7 @@ def process_test_notes(max_limit: int = 200, start: int = 0, end: int = 10):
             loop.close()
         
 
-    with open('src/flaskapp/data/results.csv', 'w', newline='') as file:
+    with open(dest_file, 'w', newline='') as file:
         writer = csv.writer(file)
         # Write the header
         writer.writerow(["PID", "STAT", "Age", "Sex", "Triage", "ISS", "Page", "AIPage"])

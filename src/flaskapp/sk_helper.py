@@ -1,3 +1,7 @@
+"""
+Semantic Kernel Helper
+"""
+
 import asyncio
 import logging
 import os
@@ -13,6 +17,7 @@ def invoke_sk_function(loop, kernel, sk_function, sk_function_args):
         with closing(loop):
             return loop.run_until_complete(kernel.invoke(sk_function, sk_function_args, temperature=0.5))
     except Exception as e:
+        logging.exception(f"Error invoking semantic function: {str(e)}")
         return f"Error invoking semantic function: {str(e)}"
 
 def execute_kernel_function(kernel, data, plugin_folder, plugin):
@@ -31,6 +36,7 @@ def execute_kernel_function(kernel, data, plugin_folder, plugin):
         result = invoke_sk_function(loop, kernel, triage_sk_function, triage_sk_args)
         return result
     except Exception as e:
+        logging.exception(f"Error executing kernel function: {str(e)}")
         raise e
 
 class KernelFactory:
