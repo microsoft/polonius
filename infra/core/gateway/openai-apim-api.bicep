@@ -1,6 +1,6 @@
 param apiManagementServiceName string
 param apiName string = 'azure-openai-service-api'
-param apiPath string = '/'
+param apiPath string = '/openai'
 param openAIEndpoint string
 
 resource apiManagementService 'Microsoft.ApiManagement/service@2022-08-01' existing = {
@@ -18,10 +18,10 @@ resource apiManagementApi 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
     path: apiPath
     protocols: [
       'https'
-    ]    
+    ]        
     subscriptionKeyParameterNames: {
-      header: 'Ocp-Apim-Subscription-Key'
-      query: 'subscription-key'
+      header: 'api-key'
+      query: 'api-key'
     }
   }
 }

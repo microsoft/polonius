@@ -68,7 +68,7 @@ class KernelFactory:
             service_id=service_id,
             deployment_name=deployment,
             endpoint=endpoint,
-            api_key=api_key,
+            api_key=api_key            
             #   api_version="2024-02-15-preview"
         )
 
