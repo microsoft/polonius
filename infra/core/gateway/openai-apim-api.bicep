@@ -14,7 +14,7 @@ resource apiManagementApi 'Microsoft.ApiManagement/service/apis@2022-08-01' = {
     displayName: 'Azure OpenAI Service API'
     description: 'Azure OpenAI APIs for completions and search'
     subscriptionRequired: true
-    serviceUrl: openAIEndpoint
+    serviceUrl: '${openAIEndpoint}openai'
     path: apiPath
     protocols: [
       'https'
