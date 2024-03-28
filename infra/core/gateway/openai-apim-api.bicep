@@ -30,7 +30,7 @@ resource apiManagementApiPolicy 'Microsoft.ApiManagement/service/apis/policies@2
   name: 'policy'
   parent: apiManagementApi
   properties: {
-    value: '<policies> <inbound> <base /> <set-header name="api-key" exists-action="append"> <value>{{openai-api-key}}</value> </set-header> </inbound> <backend> <base /> </backend> <outbound> <base /> </outbound> <on-error> <base /> </on-error> </policies>'
+    value: '<policies> <inbound> <base /> <set-header name="api-key" exists-action="override"> <value>{{openai-api-key}}</value> </set-header> </inbound> <backend> <base /> </backend> <outbound> <base /> </outbound> <on-error> <base /> </on-error> </policies>'
     format: 'xml'
   }
 }
