@@ -11,10 +11,18 @@
             {{ bootstrap.load_css() }}
         {% endblock %}
 
-        <title>Polonius - AI Summarization and Classification of critical patient data</title>
+        <title>Polonius - AI Pager Alert for Trauma Cases</title>
         {% endblock %}
     </head>
     <body>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <img style="display: block; width: 300px; height: 90px; float: left;" src="{{ url_for('static', filename='res/img/BIDMC_BILH_logo.svg') }}" alt="BIDMC_BILH_logo" id="bidmc-bilh-logo" height="100px" width="200px">
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" ><h2>AI Pager Alert for Trauma Cases</h2></div>
+                </div>
+            </nav>
+        </header>
         <!-- Your page content -->
         {% block content %}{% endblock %}
 
