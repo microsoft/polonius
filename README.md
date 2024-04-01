@@ -1,6 +1,6 @@
 # Project Polonius
 
-This is a sample flask app to demonstrate using Azure OpenAI with Semantic Kernel to summarize and classify the severity of incoming Emergency Department patients.
+This is a sample flask app to demonstrate using Azure OpenAI with Semantic Kernel to summarize and classify the severity of incoming trauma patients.
 
 ## Azure Architecture
 ![azure architecture diagram](./docs/azure-architecture.drawio.png)
@@ -8,9 +8,16 @@ This is a sample flask app to demonstrate using Azure OpenAI with Semantic Kerne
 ## Pre-requisites
 - Azure CLI (az)
 - Azure Developer CLI (azd)
+- Docker Desktop (for devcontainer) - OR - local python dev environment
+- Azure OpenAI (or use `azd provision` to create)
 
 ## Getting Started
 1. Clone this repo
+1. Rename [src/.env.example](src/.env.example) to `.env`
+1. Update `.env` file with your configuration values
+1. Run locally with debugger
+
+## Deploy to Azure
 1. Deploy to Azure with `azd up`
 
 ## Contributing
