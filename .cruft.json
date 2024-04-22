@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/Azure-Samples/Azure-Python-Standardization-Template-Generator",
-  "commit": "c42d321447be3f0cc52335d502c655fac4a28fbc",
+  "commit": "44310f2d6cf00743bd81f36413d8cdbce16ab528",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -11,7 +11,7 @@
       "project_host": "aca",
       "web_port": "8000",
       "__repo_name": "azure-flask-cosmos-mongodb-aca",
-      "__src_folder_name": "azure-flask-cosmos-mongodb-aca",
+      "__src_folder_name": "azure_flask_cosmos_mongodb_aca",
       "__project_short_description": "Create a relecloud demo application with flask and cosmos-mongodb",
       "_copy_without_render": [
         ".github/workflows/azure-dev.yml",
